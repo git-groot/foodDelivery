@@ -8,6 +8,7 @@ route.get('/getall', userControl.getall);
 route.get('/getSingle/:id',userControl.getSingle);
 route.delete('/delete/:id',userControl.delete);
 route.put('/update/:id',userControl.update);
+route.get('/filterUser',userControl.userFilter);
 
 
 module.exports = route;

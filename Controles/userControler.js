@@ -23,7 +23,7 @@ exports.addUser = (req, res) => {
         }
 
         try {
-            // Ensure fields with default values are not overwritten by empty strings
+           
             const userData = {
                 ...req.body,
                 image: req.file ? req.file.path : req.body.image
@@ -92,19 +92,19 @@ exports.getSingle = async (req, res) => {
     }
 };
 
-exports.delete=async (req,res)=>{
+exports.delete = async (req, res) => {
     try {
-        const user=await userSchema.findByIdAndDelete(req.params.id);
-        if(!user){
-            return res.status(404).json({mes:"invalide user id"});
+        const user = await userSchema.findByIdAndDelete(req.params.id);
+        if (!user) {
+            return res.status(404).json({ mes: "invalide user id" });
         }
-        return res.status(200).json(user.firstName,'deleted sucessfully');
+        return res.status(200).json(user.firstName, 'deleted sucessfully');
     } catch (error) {
         return res.status(500).json(error);
     }
 };
 
-exports.update=async (req,res)=>{
+exports.update = async (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
             console.log(err);
@@ -136,4 +136,20 @@ exports.update=async (req,res)=>{
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     });
+};
+
+exports.userFilter = async (req, res) => {
+    try {
+       const role=req.body;
+       console.log(role);
+        const user = await userSchema.find(role);
+        if(user.length==0){
+            return res.status(404).json('no user found')
+        }
+       
+        return res.status(200).json(user);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+    }
 }
